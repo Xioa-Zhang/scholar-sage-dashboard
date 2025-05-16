@@ -7,7 +7,6 @@ import { PomodoroTimer } from "@/components/study/PomodoroTimer";
 import { StudySessionForm } from "@/components/study/StudySessionForm";
 import { StudySessionList } from "@/components/study/StudySessionList";
 import { DatePickerCard } from "@/components/study/DatePickerCard";
-import 'react-calendar/dist/Calendar.css';
 
 type StudySession = {
   id: number;

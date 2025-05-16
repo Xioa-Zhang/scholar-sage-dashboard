@@ -1,6 +1,9 @@
 
 // Date handling utils
-export const handleDateChange = (value: Date | Date[], setDate: (date: Date) => void) => {
+export const handleDateChange = (value: Date | Date[] | undefined, setDate: (date: Date) => void) => {
+  // If value is undefined, do nothing
+  if (!value) return;
+  
   // Ensure we're working with a single date
   if (Array.isArray(value)) {
     setDate(value[0]);

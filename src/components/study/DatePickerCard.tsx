@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar as DatePicker } from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import { Calendar } from "@/components/ui/calendar";
 
 type DatePickerCardProps = {
   selectedDate: Date;
@@ -16,10 +15,13 @@ export const DatePickerCard = ({ selectedDate, onDateChange }: DatePickerCardPro
       </CardHeader>
       <CardContent>
         <div className="custom-calendar">
-          <DatePicker
-            onChange={onDateChange}
-            value={selectedDate}
-            className="w-full rounded-md border"
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={(date) => {
+              if (date) onDateChange(date);
+            }}
+            className="rounded-md pointer-events-auto w-full"
           />
         </div>
       </CardContent>
