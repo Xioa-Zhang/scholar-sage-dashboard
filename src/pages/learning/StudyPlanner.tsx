@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -234,6 +233,16 @@ const StudyPlanner = () => {
     return `${hours}h ${mins}m`;
   };
 
+  // Fix DatePicker onChange type
+  const handleDateChange = (value: Date | Date[]) => {
+    // Ensure we're working with a single date
+    if (Array.isArray(value)) {
+      setSelectedDate(value[0]);
+    } else {
+      setSelectedDate(value);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 animate-fade-in">
       <h1 className="text-2xl font-bold mb-6">Study Planner</h1>
@@ -385,7 +394,7 @@ const StudyPlanner = () => {
             <CardContent>
               <div className="custom-calendar">
                 <DatePicker
-                  onChange={setSelectedDate}
+                  onChange={handleDateChange}
                   value={selectedDate}
                   className="w-full rounded-md border"
                 />

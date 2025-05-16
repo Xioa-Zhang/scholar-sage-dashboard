@@ -1,4 +1,3 @@
-
 import Database from 'better-sqlite3';
 import { useState, useEffect } from 'react';
 
@@ -159,23 +158,22 @@ export function getFlashcards(subject_id?: number) {
   return db.prepare('SELECT flashcards.*, subjects.name as subject_name FROM flashcards JOIN subjects ON flashcards.subject_id = subjects.id').all();
 }
 
-export function getFlashcard(id: number) {
-  return db.prepare('SELECT * FROM flashcards WHERE id = ?').get(id);
-}
+// Add useFlashcards hook
+export function useFlashcards(subjectId?: number) {
+  const [flashcards, setFlashcards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-export function updateFlashcard(id: number, question: string, answer: string) {
-  const stmt = db.prepare('UPDATE flashcards SET question = ?, answer = ? WHERE id = ?');
-  return stmt.run(question, answer, id);
-}
+  useEffect(() => {
+    try {
+      setFlashcards(getFlashcards(subjectId));
+    } catch (error) {
+      console.error('Error fetching flashcards:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [subjectId]);
 
-export function updateFlashcardReview(id: number) {
-  const stmt = db.prepare('UPDATE flashcards SET last_reviewed = CURRENT_TIMESTAMP WHERE id = ?');
-  return stmt.run(id);
-}
-
-export function deleteFlashcard(id: number) {
-  const stmt = db.prepare('DELETE FROM flashcards WHERE id = ?');
-  return stmt.run(id);
+  return { flashcards, loading };
 }
 
 // Task CRUD operations

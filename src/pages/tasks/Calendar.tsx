@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar as DatePicker } from 'react-calendar';
@@ -14,6 +13,16 @@ const Calendar = () => {
   const { tasks } = useTasks();
   const { competitions } = useCompetitions();
   const [events, setEvents] = useState<any[]>([]);
+
+  // Fix DatePicker onChange type
+  const handleDateChange = (value: Date | Date[]) => {
+    // Ensure we're working with a single date
+    if (Array.isArray(value)) {
+      setSelectedDate(value[0]);
+    } else {
+      setSelectedDate(value);
+    }
+  };
 
   useEffect(() => {
     // Combine tasks and competitions into events
@@ -148,7 +157,7 @@ const Calendar = () => {
             <CardContent>
               <div className="custom-calendar">
                 <DatePicker
-                  onChange={setSelectedDate}
+                  onChange={handleDateChange}
                   value={selectedDate}
                   className="w-full border rounded-md"
                   tileContent={tileContent}
