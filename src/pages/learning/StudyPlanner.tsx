@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -73,28 +72,19 @@ const StudyPlanner = () => {
           const isWorkSession = prev.working;
           
           // Play a sound to notify the user
-          const audio = new Audio(isWorkSession ? 
-            "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJbA2NWzi2FLQkxJUGqGo8LRxq2af3R/iIJwVEc9R09' +
-            'cZ3F8gXdpWlJZaXqLlJF9b2txbWddV2t2eGxqaWBRXG2Ns9HGyq6ZgGdjYlZadZKzxL2of2BxgHBcS0NJia/b8û'{cF8wnttQkmIvNjt2bpsbF1aTlVQWIrI8vft2r = qkppxa'+
-            '2dfZneQw97fvZNeWHOXZk5ukMHO3dKzfEk0orjWxbjIz8Kjh5e5wraTVy0vm5+kwtzxzseeYz4fHFSfhaG8zcS4superPDpdUZGNy5hZlBcYWExtc3t5dG6vs3Pya+qoaqdelha'+
-            'ZnFxb2pfWVlfc4aceF4= QlNzo73H0L65n = VYTA0TN2DBpoor = Pj0 = 6uepL/CxcS8q5KShpCHgIaLk5qhqrO4vM' +
-            'S2mYBwZWJaVE9JPkI / PTEkHiIoLDEzNEFTbX6ReWBgcIGRo7W1opOKaUY4NS8nBwY4HR9MTVZdY29lYVBCJQAQiK7a7PS8j11QVF50i6GqgV5iWz0hZ' +
-            '+bIrIhtsNblcqgiIEZqe5OsmGuicL3N0S4aGDuNad3y1D0SEq/+eRoPBJHHbHx/ OTS57VoDFTRuDBUcsigbWci4mQCmx9ze6QkY94SnmLrAS5vYCB1qbu8XVUr' +
-            ' by5d43rWITVRNYptYkLpsfho9bT0qXYPCpDF3WlIC1Q8 / gdf0gt / 0uiR' +
-            'PTnNZS0pHct3E7DNbT = 5yjL25ttrOqZF' +
-            ' PZXiMg / WKrKmJa46sikYxNUZyXyi6 / N5gLBcNEjVbdZCZcVclJlmAt9jI47' +
-            'PImXhpYlUyKaXL7uzx5c + 4qpuOhYGHkZmff' +
-            '1xEMRwHChMqRmmHmaN / YE9DQkVJUWBzgo6VlYFsX2d/jo2GeXyFhGdVRD8' +
-            '8 P0VAR1Nyg5+ytoySjIeAcF9SRE1cYmBcziw4TmiDf2haSUxed6WKb3mGbVdXY3' +
-            'BTTmF4lbDFsJF8cXqGmrKpmsPHqYBvb2tfU1lme2lcUVttdnhsbWtvcW5mY2' +
-            '2BdYnSGo8DUxKF0Zmlyb3uMlaO2r5Z4aF' +
-            '9WWWR2h5emlnRjWEk7PUJFS1x4l7fLxK2ckoqBfG9' +
-            'jXmFpd4CBfXBnYGZ3iqGutcXN0cCqkXtt" : "data:audio/wav;base64,'+
-            'UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJbA2NWzi2FLQkxJUGqGo8LRxq2af3R/iIJwVEc9R09' +
-            'cZ3F8gXdpWlJZaXqLlJF9b2txbWddV2t2eGxqaWBRXG2Ns9HGyq6ZgGdjYlZadZKzxL2of2BxgHBcS0NJia/b8û'{cF8wnttQkmIvNjt2bpsbF1aTlVQWIrI8vft2r = qkppxa'+
-            '2dfZneQw97fvZNeWHOXZk5ukMHO3dKzfEk0orjWxbjIz8Kjh5e5wraTVy0vm5+kwtzxzseeYz4fHFSfhaG8zcS4superPDpd'+
-            'UZGNy5hZlBcYWExtc3t5dG6vs3Pya+qoaqdelhaZnFxb2pfWVlfc4aceF4');
-          audio.play();
+          const audio = new Audio();
+          try {
+            // Simple beep sound based on session type
+            const context = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            oscillator.type = "sine";
+            oscillator.frequency.value = isWorkSession ? 800 : 400; // Different tone for work vs break
+            oscillator.connect(context.destination);
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), 500);
+          } catch (e) {
+            console.error("Audio notification failed:", e);
+          }
           
           if (isWorkSession) {
             // Switch to break
